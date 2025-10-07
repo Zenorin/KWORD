@@ -1,5 +1,6 @@
 # PRD — KWORD: Keyword Scoring (Free Edition)
-## 14. Snapshot — v0.3.0 — 2025-10-07 01:00:51 UTC+09:00
+## 14. Snapshot — v0.3.0 — 2025-10-07 10:16:12 UTC+09:00
+**Verification:** PASSED ✅ — rows=3, 2025-10-07 10:16 UTC+09:00
 **Execution Context**
 - Timezone: Asia/Seoul (KST)
 
@@ -40,12 +41,12 @@ seed_index seed_sanitized related_sanitized comp_coupang comp_naver comp_combine
        2.0         기모 원피스         기모 원피스 잠옷          nan        nan           0.0 2025-10-06T06:15:48+00:00
 ```
 
-**Scores** — rows=6 | columns=['seed', 'keyword', 'keyword_sanitized', 'comp_coupang', 'comp_naver', 'comp_combined', 'intent_proxy', 'intent_norm', 'competition_norm', 'score']
+**Scores** — rows=3 | columns=['seed', 'keyword', 'keyword_sanitized', 'comp_coupang', 'comp_naver', 'comp_combined', 'intent_proxy', 'intent_norm', 'competition_norm', 'score']
 ```
 seed       keyword keyword_sanitized comp_coupang comp_naver comp_combined intent_proxy intent_norm competition_norm score
-   1 naver_suggest     naver_suggest          nan        nan           nan          0.0         0.0              0.0  45.0
-   1 naver_suggest     naver_suggest          nan        nan           nan          0.0         0.0              0.0  45.0
-   2 naver_suggest     naver_suggest          nan        nan           nan          0.0         0.0              0.0  45.0
+   1 naver_suggest     naver_suggest          0.0        0.0           0.0          0.0         0.0              0.0  45.0
+   2 naver_suggest     naver_suggest          0.0        0.0           0.0          0.0         0.0              0.0  45.0
+   3 naver_suggest     naver_suggest          0.0        0.0           0.0          0.0         0.0              0.0  45.0
 ```
 
 > Note: previews truncated to 3 rows; see full CSVs in `output/`.

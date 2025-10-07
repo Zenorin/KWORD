@@ -34,13 +34,13 @@ seed_index seed_sanitized related_sanitized comp_coupang comp_naver comp_combine
        2.0         기모 원피스         기모 원피스 잠옷          nan        nan           0.0 2025-10-06T06:15:48+00:00
 ```
 
-**output/keyword_scores_free.csv** — rows=6
+**output/keyword_scores_free.csv** — rows=3
 columns=['seed', 'keyword', 'keyword_sanitized', 'comp_coupang', 'comp_naver', 'comp_combined', 'intent_proxy', 'intent_norm', 'competition_norm', 'score']
 ```
 seed       keyword keyword_sanitized comp_coupang comp_naver comp_combined intent_proxy intent_norm competition_norm score
-   1 naver_suggest     naver_suggest          nan        nan           nan          0.0         0.0              0.0  45.0
-   1 naver_suggest     naver_suggest          nan        nan           nan          0.0         0.0              0.0  45.0
-   2 naver_suggest     naver_suggest          nan        nan           nan          0.0         0.0              0.0  45.0
+   1 naver_suggest     naver_suggest          0.0        0.0           0.0          0.0         0.0              0.0  45.0
+   2 naver_suggest     naver_suggest          0.0        0.0           0.0          0.0         0.0              0.0  45.0
+   3 naver_suggest     naver_suggest          0.0        0.0           0.0          0.0         0.0              0.0  45.0
 ```
 
 - ✅ scores.csv columns OK
