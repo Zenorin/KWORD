@@ -1,7 +1,6 @@
 # PRD — KWORD: Keyword Scoring (Free Edition)
-## 14. Snapshot — v0.3.0 — 2025-10-07 10:16:12 UTC+09:00
-**Verification:** PASSED ✅ — rows=3, 2025-10-07 10:18 UTC+09:00
-**Verification:** PASSED ✅ — rows=3, 2025-10-07 10:16 UTC+09:00
+## 14. Snapshot — v0.3.0 — 2025-10-07 11:07:01 UTC+09:00
+**Intent tokens:** 0 loaded ✅ — 2025-10-07 11:07 UTC+09:00
 **Execution Context**
 - Timezone: Asia/Seoul (KST)
 

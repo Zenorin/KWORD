@@ -8,3 +8,7 @@
   - [ ] `keyword_scores_free.csv` generated
   - [ ] `keyword_scores_free.xlsx` generated
   - [ ] `report.html` generated
+
+
+## Epic D — Data & Config Quality
+- [x] D1. Add `config` sheet intent tokens table
