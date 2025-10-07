@@ -25,17 +25,21 @@ def _bar(pct: float, label: str) -> str:
     </div>'''
 
 def _table(df: pd.DataFrame, title: str, topn: int = 10) -> str:
-    cols = [c for c in ["seed","keyword","score","competition_norm","intent_norm","comp_combined"] if c in df.columns]
+    # Sort and take top N
     d = df.copy().sort_values("score", ascending=False).head(topn)
     rows = []
     for _, r in d.iterrows():
-        seed = html.escape(str(r.get("seed","")))
-        kw = html.escape(str(r.get("keyword","")))
+        seed = html.escape(str(r.get("seed", "")))
+        kw = html.escape(str(r.get("keyword", "")))
         score = float(r.get("score", 0))
         compn = float(r.get("competition_norm", 0))
         intentn = float(r.get("intent_norm", 0))
         bar = _bar(score, f"{score:.1f}")
-        rows.append(f"<tr><td>{seed}</td><td>{kw}</td><td style='min-width:160px'>{bar}</td><td>{intentn:.2f}</td><td>{compn:.2f}</td></tr>")
+        rows.append(
+            f"<tr><td>{seed}</td><td>{kw}</td>"
+            f"<td style='min-width:160px'>{bar}</td>"
+            f"<td>{intentn:.2f}</td><td>{compn:.2f}</td></tr>"
+        )
     head = "<tr><th>seed</th><th>keyword</th><th>score</th><th>intent_norm</th><th>competition_norm</th></tr>"
     return f"<h3>{html.escape(title)}</h3><table>{head}{''.join(rows)}</table>"
 
@@ -44,7 +48,7 @@ def _per_seed(df: pd.DataFrame, per: int = 5) -> str:
         return ""
     html_blocks = ["<h2>Top by seed</h2>"]
     for seed, g in df.groupby("seed"):
-        if str(seed).strip()=="":
+        if str(seed).strip() == "":
             continue
         html_blocks.append(_table(g, f"Seed: {seed}", topn=per))
     return "\n".join(html_blocks)
@@ -58,6 +62,7 @@ def main() -> int:
     args = ap.parse_args()
 
     df = pd.read_csv(args.scores, encoding="utf-8-sig")
+
     css = """
     <style>
       body{font-family:system-ui, -apple-system, Segoe UI, Roboto, sans-serif;margin:20px}

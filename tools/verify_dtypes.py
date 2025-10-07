@@ -11,7 +11,7 @@ C3: Simple dtype/column validator for Free Edition outputs.
 from __future__ import annotations
 import argparse
 from pathlib import Path
-from typing import List, Tuple
+from typing import List
 import pandas as pd
 import re
 
@@ -56,8 +56,7 @@ def main() -> int:
         bad = []
         for i, v in enumerate(df["seed"].astype(str)):
             if v and _float_like.match(v):  # looks like 1 or 1.0
-                # we accept only plain integer string e.g. "1"
-                if "." in v:
+                if "." in v:  # only accept plain int string
                     bad.append(i)
         if bad:
             issues.append(f"seed not canonicalized (has floats) count={len(bad)}")
