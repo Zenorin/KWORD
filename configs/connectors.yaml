@@ -1,0 +1,24 @@
+# Endpoints & per-source settings
+naver_search_shop:
+  base_url: https://openapi.naver.com/v1/search/shop.json
+  topN: 20
+
+naver_datalab:
+  base_url: https://openapi.naver.com/v1/datalab
+  endpoints:
+    search_trend: /search
+    shopping_insight: /shopping/categories
+
+smartstore:
+  # Commerce API (seller). Use ACCESS TOKEN in Authorization header (Bearer).
+  base_url: https://api.commerce.naver.com
+  # Example resource paths vary by scope; add as needed.
+
+coupang_open:
+  base_url: https://api-gateway.coupang.com
+  endpoints:
+    category_predict: /v2/providers/affiliate_open_api/apis/api/v1/category/predict  # placeholder path, adjust if needed
+
+coupang_partners:
+  base_url: https://api-gateway.coupang.com
+  # Partners uses different auth keypair; set in .env

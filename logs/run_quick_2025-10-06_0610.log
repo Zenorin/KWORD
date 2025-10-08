@@ -1,0 +1,62 @@
+=== Stage 1-1: Excel Loader (preserve duplicates) ===
+[INFO] Base dir     : /workspaces/KWORD
+[INFO] Input Excel  : data/seeds.xlsx
+[OK] Loaded 'seeds' sheet
+ - rows_total                 : 4
+ - rows_unique_by_keyword     : 3
+ - rows_duplicates_by_keyword : 1
+ - head_preview (first rows):
+   01. keyword='[특가] 기모 원피스!', category='apparel'
+   02. keyword='무료 배송 겨울 니트', category='apparel'
+   03. keyword='기모 원피스', category='apparel'
+   04. keyword='기모 원피스', category='apparel'
+
+=== Stage 1-2: Parse weights from 'config' sheet (Excel) ===
+ - excel weights (normalized) : W_intent=0.5500, W_competition=0.4500
+
+=== Stage 1-3: Parse intent tokens from 'config' sheet (Excel) ===
+ - excel tokens count         : 10
+ - excel tokens preview       : 빅사이즈:1.00, 임산부:0.90, 하객:0.70, 홈웨어:0.60, 니트:0.50, 롱:0.50, 후드:0.40, 맨투맨:0.40, 폴라:0.40, 기모:0.30
+
+=== Stage 1-4: Prohibited words/symbols ===
+ - defaults (JSON)            : words=33, symbols=25
+ - extras (config)            : words=0, symbols=0
+ - merged total               : words=33, symbols=25
+
+=== Stage 1-5: Apply precedence (CLI > Excel > Defaults) ===
+ - effective weights          : W_intent=0.5500, W_competition=0.4500 (sum=1.0000)
+ - effective tokens count     : 10
+ - effective tokens preview   : 빅사이즈:1.00, 임산부:0.90, 하객:0.70, 홈웨어:0.60, 니트:0.50, 롱:0.50, 후드:0.40, 맨투맨:0.40, 폴라:0.40, 기모:0.30
+
+=== Stage 2-1: Sanitizer (partial-match removal + normalization + logs) ===
+ - rows changed               : 2 / 4
+ - sample changes:
+   • '[특가] 기모 원피스!' -> '[] 기모 원피스'
+   • '무료 배송 겨울 니트' -> '겨울 니트'
+ - saved sanitized preview    : /workspaces/KWORD/output/sanitized_keywords.csv
+
+=== Stage 2-2: Expansion (Naver Suggest) ===
+ - seeds processed            : 4
+ - expanded rows              : 6
+ - sample expanded (top 10):
+   • [겨울 니트] -> (01) 겨울 니트목도리
+   • [겨울 니트] -> (02) 겨울 니트 원피스
+   • [기모 원피스] -> (01) 기모 원피스 잠옷
+   • [기모 원피스] -> (02) 기모 원피스 파자마
+   • [기모 원피스] -> (01) 기모 원피스 잠옷
+   • [기모 원피스] -> (02) 기모 원피스 파자마
+ - saved expanded keywords    : /workspaces/KWORD/output/expanded_keywords.csv
+
+=== Stage 3-1: Competition (Coupang / Naver) ===
+ - competition rows           : 6
+ - sample competition (top 10):
+   • 겨울 니트목도리 | coupang=None naver=None | combined=0.0000
+   • 겨울 니트 원피스 | coupang=None naver=None | combined=0.0000
+   • 기모 원피스 잠옷 | coupang=None naver=None | combined=0.0000
+   • 기모 원피스 파자마 | coupang=None naver=None | combined=0.0000
+   • 기모 원피스 잠옷 | coupang=None naver=None | combined=0.0000
+   • 기모 원피스 파자마 | coupang=None naver=None | combined=0.0000
+ - saved competition counts   : output/competition_counts.csv
+
+Next steps:
+ - Scoring (normalize intent/competition with weights) → Reports

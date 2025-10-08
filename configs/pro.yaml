@@ -1,0 +1,18 @@
+# KWORD Pro runtime
+mode: snapshot            # snapshot | live
+export_top_k: 200
+alpha_blend: 0.6          # final = alpha*baseline + (1-alpha)*ml
+concurrency: 2
+retry:
+  attempts: 3
+  backoff: exp
+  factor: 1.5
+  jitter: true
+throttle_ms: 300          # basic inter-request sleep
+
+enable_connectors:
+  naver_search: true
+  naver_datalab: true
+  smartstore: true
+  coupang_open: true
+  coupang_partners: false

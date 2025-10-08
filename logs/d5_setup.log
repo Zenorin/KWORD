@@ -1,0 +1,64 @@
++ set -Eeuo pipefail
++ trap 'echo "[ERR] ${BASH_SOURCE[0]}:${LINENO}: ${BASH_COMMAND} (exit=$?)" >&2' ERR
++ WORKDIR=/workspaces/KWORD
++ [[ -d /workspaces/KWORD ]]
++ cd /workspaces/KWORD
+++ pwd
++ echo '[OK] pwd=/workspaces/KWORD'
+[OK] pwd=/workspaces/KWORD
++ mkdir -p docs scripts .github/workflows
++ [[ ! -f docs/prd_keyword_scoring_pro_edition.md ]]
++ [[ ! -f docs/wbs_keyword_scoring_pro_edition.md ]]
++ cat
++ chmod +x scripts/free_run.sh
++ cat
++ chmod +x scripts/pro_run.sh
++ [[ ! -f .github/workflows/ci-smoke.yml ]]
++ touch .gitignore
++ grep -q '^output/\*\*$' .gitignore
++ grep -q '^!output/golden/\*\*$' .gitignore
++ grep -q '^!output/golden/regression/\*\*$' .gitignore
++ echo '[OK] updated .gitignore exceptions for golden snapshot'
+[OK] updated .gitignore exceptions for golden snapshot
++ git add docs/prd_keyword_scoring_free_edition.md docs/prd_keyword_scoring_pro_edition.md docs/wbs_keyword_scoring_free_edition.md docs/wbs_keyword_scoring_pro_edition.md scripts/d5_setup.sh scripts/free_run.sh scripts/pro_run.sh .github/workflows/ci-smoke.yml .gitignore
++ git commit -m 'chore: init Pro edition skeleton + scripts + CI workflow + .gitignore golden exceptions'
+On branch main
+Your branch is ahead of 'origin/main' by 9 commits.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   README.md
+	modified:   output/_verify_report.md
+	modified:   output/keyword_scores_free.xlsx
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	compute_scores.pid
+	config/
+	data/
+	docs/.gitkeep
+	logs/
+	requirements.txt
+	run.log
+	src/
+	stage3.pid
+	tools/ci_smoke.py
+	tools/clean_empty_brackets.py
+	tools/compute_scores.py
+	tools/fetch_competition_counts.py
+	tools/make_golden_snapshot.py
+	tools/make_regression_seeds.py
+	tools/patch_config_tokens.py
+	tools/patch_prohibited_lists.py
+	tools/update_prd_snapshot.py
+	tools/verify_outputs.py
+	trace.log
+
+no changes added to commit (use "git add" and/or "git commit -a")
++ true
++ git show-ref --verify --quiet refs/heads/pro
++ git show-ref --tags --quiet free-v0.3.0-snapshot
++ echo '[DONE] D5 skeleton ready.'
+[DONE] D5 skeleton ready.

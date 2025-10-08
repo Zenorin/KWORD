@@ -1,0 +1,18 @@
+nohup: ignoring input
+[INFO] Reading Excel config: data/seeds.xlsx
+Traceback (most recent call last):
+  File "/workspaces/KWORD/tools/compute_scores.py", line 388, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/workspaces/KWORD/tools/compute_scores.py", line 374, in main
+    compute_scores(
+  File "/workspaces/KWORD/tools/compute_scores.py", line 194, in compute_scores
+    w_int, w_cmp, tokens = _read_excel_config(excel_in)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/KWORD/tools/compute_scores.py", line 126, in _read_excel_config
+    tbl = dict(
+          ^^^^^
+  File "/workspaces/KWORD/tools/compute_scores.py", line 127, in <genexpr>
+    (str(k).strip().lower(), float(v))
+                             ^^^^^^^^
+ValueError: could not convert string to float: 'weight'
