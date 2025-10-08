@@ -1,5 +1,13 @@
 # PRD — KWORD: Keyword Scoring (Free Edition)
 ## 14. Snapshot — v0.3.0 — 2025-10-07 11:17:52 UTC+09:00
+### Golden Snapshot
+- Created: 2025-10-08 11:57:21 UTC+09:00
+- Location: 
+- sanitized_keywords.csv: rows=2, cols=9, sha=7fcb02e1037b…
+- expanded_keywords.csv: rows=1, cols=7, sha=78b97b0b0ba9…
+- competition_counts.csv: rows=1, cols=7, sha=693c1459ec85…
+- keyword_scores_free.csv: rows=1, cols=10, sha=e827df0316e4…
+
 ### Regression Snapshot
 - Time: 2025-10-08 11:43 UTC+09:00
 - Artifacts:

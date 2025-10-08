@@ -1,0 +1,47 @@
+name: CI Smoke (Free Edition)
+
+on:
+  push:
+    paths:
+      - 'tools/**'
+      - 'src/**'
+      - 'docs/**'
+      - 'data/seeds_regression.xlsx'
+      - 'output/golden/regression/**'
+      - '.github/workflows/ci-smoke.yml'
+  workflow_dispatch:
+
+env:
+  TOLERANCE: "1e-9"
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas numpy openpyxl xlsxwriter
+
+      - name: Run CI smoke with golden snapshot
+        run: |
+          python -u tools/ci_smoke.py \
+            --golden-dir output/golden/regression \
+            --excel-in data/seeds_regression.xlsx \
+            --tolerance "${TOLERANCE}"
+
+      - name: Upload smoke outputs (for debugging)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-smoke-out
+          path: output/_ci_smoke/ci_scores.csv
+          if-no-files-found: ignore

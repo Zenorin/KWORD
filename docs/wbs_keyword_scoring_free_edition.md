@@ -14,3 +14,4 @@
 - [x] D1. Add `config` sheet intent tokens table
 
 - [x] D3. Create regression seeds & run mini-pipeline
+- [x] D4. Golden snapshot & CI smoke (deterministic scores)
