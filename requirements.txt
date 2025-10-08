@@ -1,0 +1,11 @@
+# Core data stack
+pandas==2.2.2
+numpy==1.26.4
+
+# HTTP & parsing
+requests==2.32.3
+beautifulsoup4==4.12.3
+
+# Excel IO
+openpyxl==3.1.5
+XlsxWriter==3.2.0
