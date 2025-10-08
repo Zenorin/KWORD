@@ -48,4 +48,5 @@ Gate P0 (Bootstrap): P1–P3 ✅
 Gate P1 (Feature): PX1–PX3 ⏳
 
 ## Epic D — Data & Config Quality
+- [x] D7. Verify & auto-fix duplicates
 - [x] D6. Report+ dashboard generated

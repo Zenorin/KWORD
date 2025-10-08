@@ -152,4 +152,5 @@ CI Smoke: configured (.github/workflows/ci-smoke.yml → tools/ci_smoke.py)
 Versioning: branch pro, tags free-v0.3.0-snapshot, pro-v0.1.0-snapshot
 
 ## Snapshot
+**Quality:** outputs verified ✅ (no issues)
 **Report+:** generated ✅ — 2025-10-08 19:05 UTC+09:00 (output/report_plus.html)
