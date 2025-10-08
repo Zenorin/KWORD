@@ -1,73 +1,155 @@
-# PRD — KWORD: Keyword Scoring (Free Edition)
-## 14. Snapshot — v0.3.0 — 2025-10-07 11:17:52 UTC+09:00
-**Quality:** outputs verified ✅ (no issues)
-**Report+:** generated ✅ — 2025-10-08 16:16 UTC+09:00 (output/report_plus.html)
-### Golden Snapshot
-- Created: 2025-10-08 11:57:21 UTC+09:00
-- Location: 
-- sanitized_keywords.csv: rows=2, cols=9, sha=7fcb02e1037b…
-- expanded_keywords.csv: rows=1, cols=7, sha=78b97b0b0ba9…
-- competition_counts.csv: rows=1, cols=7, sha=693c1459ec85…
-- keyword_scores_free.csv: rows=1, cols=10, sha=e827df0316e4…
+PRD — KWORD: Keyword Scoring (Free Edition)
+1. Overview
 
-### Regression Snapshot
-- Time: 2025-10-08 11:43 UTC+09:00
-- Artifacts:
-**output/regression/sanitized_keywords.csv** — rows=2
+KWORD Free Edition generates and ranks keyword candidates for e‑commerce contexts using seed terms, intent tokens, light sanitization, suggestion-based expansion, lightweight competition signals, and a transparent scoring formula.
 
-**output/regression/expanded_keywords.csv** — rows=1
+2. Goals / Non‑Goals
 
-**output/regression/competition_counts.csv** — rows=1
+Goals
 
-**output/regression/keyword_scores_free.csv** — rows=1
+Produce a reproducible, local, and dependency-light keyword scoring pipeline.
 
+Allow non-technical users to configure weights/tokens directly in Excel.
 
-**Execution Context**
-- Timezone: Asia/Seoul (KST)
+Provide deterministic verification (golden snapshot + CI smoke).
 
-**Artifacts**
-- ✅ output/sanitized_keywords.csv
-- ✅ output/expanded_keywords.csv
-- ✅ output/competition_counts.csv
-- ✅ output/keyword_scores_free.csv
-- ✅ output/keyword_scores_free.xlsx
-- ✅ output/report.html
+Offer a clear report (Report+) for browsing, sorting, and exporting results.
 
-**Commands (latest)**
-_Commands not captured; see WBS Cheat Sheet._
+Non‑Goals
 
-**Previews (Top 3)**
+Full-scale crawling or paid APIs (Pro scope).
 
-**Sanitized** — rows=4 | columns=['keyword', 'category', 'keyword_sanitized', 'sanitized_changed', 'keyword_original', 'keyword_sanitized_log', 'removed_words', 'removed_symbols', 'changed']
-```
-     keyword category keyword_sanitized sanitized_changed keyword_original keyword_sanitized_log removed_words removed_symbols changed
-[특가] 기모 원피스!  apparel         [] 기모 원피스              True     [특가] 기모 원피스!             [] 기모 원피스            특가               !    True
- 무료 배송 겨울 니트  apparel             겨울 니트              True      무료 배송 겨울 니트                 겨울 니트         무료 배송             nan    True
-      기모 원피스  apparel            기모 원피스             False           기모 원피스                기모 원피스           nan             nan   False
-```
+Advanced ML ranking; Free uses deterministic scoring.
 
-**Expanded** — rows=6 | columns=['seed_index', 'seed_original', 'seed_sanitized', 'related_original', 'related_sanitized', 'source', 'rank']
-```
-seed_index seed_original seed_sanitized related_original related_sanitized        source rank
-         1   무료 배송 겨울 니트          겨울 니트         겨울 니트목도리          겨울 니트목도리 naver_suggest    1
-         1   무료 배송 겨울 니트          겨울 니트        겨울 니트 원피스         겨울 니트 원피스 naver_suggest    2
-         2        기모 원피스         기모 원피스        기모 원피스 잠옷         기모 원피스 잠옷 naver_suggest    1
-```
+3. Users & Stories
 
-**Competition** — rows=6 | columns=['seed_index', 'seed_sanitized', 'related_sanitized', 'comp_coupang', 'comp_naver', 'comp_combined', 'ts']
-```
-seed_index seed_sanitized related_sanitized comp_coupang comp_naver comp_combined                        ts
-         1          겨울 니트          겨울 니트목도리          nan        nan           0.0 2025-10-07T02:17:38+00:00
-         1          겨울 니트         겨울 니트 원피스          nan        nan           0.0 2025-10-07T02:17:40+00:00
-         2         기모 원피스         기모 원피스 잠옷          nan        nan           0.0 2025-10-07T02:17:43+00:00
-```
+Operator (Marketer/PM): Upload seeds, tweak tokens/weights, export top keywords.
 
-**Scores** — rows=3 | columns=['seed', 'keyword', 'keyword_sanitized', 'comp_coupang', 'comp_naver', 'comp_combined', 'intent_proxy', 'intent_norm', 'competition_norm', 'score']
-```
-seed       keyword keyword_sanitized comp_coupang comp_naver comp_combined intent_proxy intent_norm competition_norm score
-   1 naver_suggest     naver_suggest          0.0        0.0           0.0          0.0         0.0              0.0  45.0
-   2 naver_suggest     naver_suggest          0.0        0.0           0.0          0.0         0.0              0.0  45.0
-   3 naver_suggest     naver_suggest          0.0        0.0           0.0          0.0         0.0              0.0  45.0
-```
+Developer: Extend rules, add sources, maintain CI consistency via golden snapshot.
 
-> Note: previews truncated to 3 rows; see full CSVs in `output/`.
+4. Inputs
+
+Excel: data/seeds.xlsx
+
+Sheet seeds: keyword, category (minimum)
+
+Sheet config: W_intent, W_competition; optional token table; optional key/value rows: prohibited_words, prohibited_symbols.
+
+5. Pipeline (Free)
+
+Sanitize → normalize strings, remove prohibited words/symbols (partial-match), log changes → output/sanitized_keywords.csv.
+
+Expand (Naver Suggest) → output/expanded_keywords.csv.
+
+Competition (site-mode selectable; default: naver) → output/competition_counts.csv.
+
+Score (deterministic):
+
+Normalize intent & competition → intent_norm and competition_norm in [0,1].
+
+Weighted sum: score = 100 * (W_intent*intent_norm + W_competition*(1-competition_norm)).
+
+Save to output/keyword_scores_free.csv / .xlsx; optionally output/report.html.
+
+6. Config & Tooling
+
+Intent tokens in config sheet (columns: token, weight, enabled).
+
+Upsert tool: tools/patch_config_tokens.py.
+
+Prohibited lists stored as key/value rows:
+
+prohibited_words, prohibited_symbols (newline-separated in a single cell).
+
+Upsert tool: tools/patch_prohibited_lists.py.
+
+Regression seeds: tools/make_regression_seeds.py → data/seeds_regression.xlsx.
+
+Golden snapshot: tools/make_golden_snapshot.py → output/golden/regression/* + manifest.json.
+
+CI smoke: tools/ci_smoke.py (compares recomputed scores vs golden).
+
+Report+: tools/make_report_plus.py → interactive output/report_plus.html.
+
+Verification: tools/verify_outputs.py (required cols, numeric coercion, score range, duplicates). Optional tools/fix_duplicates.py keeps highest score per key.
+
+7. Scripts (Free)
+
+scripts/free_run.sh — full Free pipeline.
+
+scripts/d6_report_plus.sh — generate Report+ and update PRD/WBS.
+
+scripts/d7_verify.sh — verify → optional auto de-dup → update PRD/WBS.
+
+8. Outputs
+
+output/sanitized_keywords.csv
+
+output/expanded_keywords.csv
+
+output/competition_counts.csv
+
+output/keyword_scores_free.csv / .xlsx
+
+output/report.html / output/report_plus.html
+
+output/_verify_report.md
+
+output/golden/regression/* (golden inputs + keyword_scores_free.csv + manifest.json)
+
+9. Quality & CI
+
+Determinism: Golden snapshot supplies fixed inputs for scoring.
+
+CI: .github/workflows/ci-smoke.yml runs tools/ci_smoke.py with tolerance 1e-9.
+
+Verification: verify_outputs.py ensures schema and ranges; fix_duplicates.py resolves key duplicates.
+
+10. Versioning & Branching
+
+Branches: main = Free; pro = Pro edition.
+
+Tags: free-v0.3.0-snapshot (Free), pro-v0.1.0-snapshot (Pro).
+
+11. Runbook (Operator Rules)
+
+Execute one task at a time from WBS.
+
+After each task completes, pause and request approval before the next.
+
+Mark completed items with - [x] in WBS and reflect changes in PRD Snapshot.
+
+12. Risks & Open Items
+
+Suggest/competition endpoints may throttle; keep --sleep conservative.
+
+If schema drifts, compute_scores.py may need column auto-detection updates.
+
+13. Next (Roadmap)
+
+D7: Verify & auto de-dup (running routinely).
+
+D8: Externalize runtime switches (site-mode, retry, sleep) into config.
+
+14. Snapshot (Updated 2025‑10‑08 KST)
+
+Intent tokens: 10 loaded ✅ — 빅사이즈(1.00), 임산부(0.90), 하객(0.70), 홈웨어(0.60), 니트(0.50), 롱(0.50), 후드(0.40), 맨투맨(0.40), 폴라(0.40), 기모(0.30)
+
+Prohibited lists (configured via config key/value):
+
+words ⊇ ["특가","세일","할인","쿠폰","행사","증정","무료증정","무료배송","정품아님","짝퉁","광고","ad","sponsored"]
+
+symbols ⊇ ["【","】","［","］","『","』","「","」","★","☆","♡","❤","♥","※","❗","❕","❌","✔"]
+
+Regression Snapshot: present at output/regression/ (sanitized / expanded / competition / scores / report.html)
+
+Golden Snapshot: present at output/golden/regression/ with manifest.json (sha256 + row/col counts)
+
+Report+: output/report_plus.html (search/sort/export)
+
+CI Smoke: configured (.github/workflows/ci-smoke.yml → tools/ci_smoke.py)
+
+Versioning: branch pro, tags free-v0.3.0-snapshot, pro-v0.1.0-snapshot
+
+## Snapshot
+**Report+:** generated ✅ — 2025-10-08 19:05 UTC+09:00 (output/report_plus.html)
