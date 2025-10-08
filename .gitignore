@@ -1,0 +1,4 @@
+# Keep golden snapshot tracked
+output/**
+!output/golden/**
+!output/golden/regression/**
