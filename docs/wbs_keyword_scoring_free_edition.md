@@ -11,6 +11,7 @@
 
 
 ## Epic D — Data & Config Quality
+- [x] D7. Verify & auto-fix duplicates
 - [x] D6. Report+ dashboard generated
 - [x] D1. Add `config` sheet intent tokens table
 

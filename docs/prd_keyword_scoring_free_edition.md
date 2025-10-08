@@ -1,5 +1,6 @@
 # PRD — KWORD: Keyword Scoring (Free Edition)
 ## 14. Snapshot — v0.3.0 — 2025-10-07 11:17:52 UTC+09:00
+**Quality:** outputs verified ✅ (no issues)
 **Report+:** generated ✅ — 2025-10-08 16:16 UTC+09:00 (output/report_plus.html)
 ### Golden Snapshot
 - Created: 2025-10-08 11:57:21 UTC+09:00
